@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Lobby</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script type="module" src="/js/chat.js" defer></script>
+    <script type="module" src="/js/lobby.js" defer></script>
+  </head>
+  <body>
+    <a href="/auth/logout">Logout</a>
+    <h1>
+      Hello
+      <%= user.username %>
+      (<%= user.id %>)
+    </h1>
+
+    <form method="post" action="/games">
+      <label for="name">Name</label>
+      <input type="text" name="name" placeholder="Optional game name" />
+
+      <label for="max_players">Max Players</label>
+      <input type="number" name="max_players" placeholder="Optional max players (default 4)" />
+
+      <button type="submit">Create Game</button>
+    </form>
+
+    <div id="game-list"></div>
+
+    <div id="chat-area">
+      <div id="message-listing"></div>
+      <div id="message-submit">
+        <input type="text" placeholder="Enter your message" />
+        <button>Send</button>
+      </div>
+    </div>
+
+    <template id="template-chat-message">
+      <div class="chat-message">
+        <div class="message-header">
+          <span class="message-username"></span>
+          <span class="message-time"></span>
+        </div>
+        <span class="message-text"></span>
+      </div>
+    </template>
+
+    <template id="game-listing-template">
+      <div class="game-item">
+        <span class="game-id"></span>
+        <span class="game-name"></span>
+        <span class="game-created-by"></span>
+        <span class="game-state"></span>
+        <span class="max-players"></span>
+        <span class="created-at"></span>
+      </div>
+    </template>
+  </body>
+</html>
