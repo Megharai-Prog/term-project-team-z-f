@@ -1,6 +1,4 @@
-import { ColumnDefinitions, MigrationBuilder } from 'node-pg-migrate';
-
-export const shorthands: ColumnDefinitions | undefined = undefined;
+import { MigrationBuilder } from 'node-pg-migrate';
 
 const TABLE_NAME = "game_cards";
 
@@ -12,7 +10,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
         game_id: {
             type: 'integer',
             notNull: true,
-            references: 'games(id)',
+            references: 'game(id)',
             onDelete: 'CASCADE',
         },
         card_id: {

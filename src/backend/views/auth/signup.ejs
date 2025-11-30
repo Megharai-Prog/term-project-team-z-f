@@ -3,47 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up - Go Fish</title>
+    <title>Sign Up</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="stylesheet" href="/css/bundle.css" />
   </head>
   <body>
-    <div class="auth-container">
-      <div class="auth-card">
-        <h1>
-          <span class="fish-logo">🐟</span>
-          Sign Up
-        </h1>
+  <body>
+    <form method="post" action="/auth/signup">
+      <% if(locals.error !== undefined) { %>
+      <p><%= locals.error %></p>
+      <% } %>
 
-        <% if(locals.error !== undefined) { %>
-        <div class="error-message">
-          <%= locals.error %>
-        </div>
-        <% } %>
+      <label for="username">Username:</label>
+      <input type="text" name="username" />
 
-        <form method="post" action="/auth/signup">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" required />
-          </div>
+      <label for="email">Email:</label>
+      <input type="email" name="email" />
 
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" required />
-          </div>
+      <label for="password">Password:</label>
+      <input type="password" name="password" />
 
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required />
-          </div>
+      <button type="submit">Create Account</button>
 
-          <button type="submit" class="btn-primary">Create Account</button>
-
-          <div class="form-footer">
-            Already have an account? <a href="/auth/login">Log in</a>
-          </div>
-        </form>
-      </div>
-    </div>
-  </body>
+      <a href="/auth/login">Login</a>
+    </form></body>
 </html>

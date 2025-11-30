@@ -1,7 +1,6 @@
 import express from "express";
-
-import * as Auth from "@backend/db/auth";
-import { requireGuest } from "@backend/middleware";
+import { Auth } from "../db";
+import { requireGuest } from "../middleware";
 
 const router = express.Router();
 

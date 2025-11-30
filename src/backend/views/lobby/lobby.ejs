@@ -4,62 +4,36 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Lobby - Go Fish</title>
+    <title>Lobby</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="stylesheet" href="/css/bundle.css" />
     <script type="module" src="/js/chat.js" defer></script>
     <script type="module" src="/js/lobby.js" defer></script>
   </head>
   <body>
-    <div class="header card">
-      <h1>
-        <span class="fish-logo">🐟</span>
-        Hello <%= user.username %> (<%= user.id %>)
-      </h1>
-      <a href="/auth/logout" class="btn-link">Logout</a>
-    </div>
+    <a href="/auth/logout">Logout</a>
+    <h1>
+      Hello
+      <%= user.username %>
+      (<%= user.id %>)
+    </h1>
 
-    <div class="lobby-container">
-      <div class="lobby-main">
-        <div class="card">
-          <h2>Create New Game</h2>
-          <form method="post" action="/games">
-            <div class="form-group">
-              <label for="name">Game Name</label>
-              <input type="text" name="name" placeholder="Optional" />
-            </div>
-            <div class="form-group">
-              <label for="max_players">Max Players</label>
-              <input type="number" name="max_players" value="4" min="2" max="8" />
-            </div>
-            <button type="submit" class="btn-primary">Create</button>
-          </form>
-        </div>
+    <form method="post" action="/games">
+      <label for="name">Name</label>
+      <input type="text" name="name" placeholder="Optional game name" />
 
-        <div class="lobby-game-columns">
-          <div class="card">
-            <h2>Your Games</h2>
-            <div id="my-game-list"></div>
-          </div>
+      <label for="max_players">Max Players</label>
+      <input type="number" name="max_players" placeholder="Optional max players (default 4)" />
 
-          <div class="card">
-            <h2>Available Games</h2>
-            <div id="available-game-list"></div>
-          </div>
-        </div>
-      </div>
+      <button type="submit">Create Game</button>
+    </form>
 
-      <div class="lobby-chat">
-        <div class="card">
-          <h2>Lobby Chat</h2>
-          <div id="chat-area">
-            <div id="message-listing" class="message-listing"></div>
-            <div id="message-submit" class="message-submit">
-              <input type="text" placeholder="Enter your message" />
-              <button class="btn-primary">Send</button>
-            </div>
-          </div>
-        </div>
+    <div id="game-list"></div>
+
+    <div id="chat-area">
+      <div id="message-listing"></div>
+      <div id="message-submit">
+        <input type="text" placeholder="Enter your message" />
+        <button>Send</button>
       </div>
     </div>
 
@@ -75,16 +49,12 @@
 
     <template id="game-listing-template">
       <div class="game-item">
-        <div class="game-info">
-          <span class="game-name"></span>
-          <span class="game-meta">
-            <span class="game-state"></span>
-            <span class="max-players"></span>
-          </span>
-        </div>
-        <form method="post" action="#">
-          <button class="btn-primary">Join</button>
-        </form>
+        <span class="game-id"></span>
+        <span class="game-name"></span>
+        <span class="game-created-by"></span>
+        <span class="game-state"></span>
+        <span class="max-players"></span>
+        <span class="created-at"></span>
       </div>
     </template>
   </body>

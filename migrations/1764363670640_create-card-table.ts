@@ -1,6 +1,4 @@
-import { ColumnDefinitions, MigrationBuilder } from 'node-pg-migrate';
-
-export const shorthands: ColumnDefinitions | undefined = undefined;
+import { MigrationBuilder } from 'node-pg-migrate';
 
 const TABLE_NAME = "card";
 
