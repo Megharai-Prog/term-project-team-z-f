@@ -5,22 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Log In</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/styles/auth.css">
   </head>
   <body>
-    <form method="post" action="/auth/login">
-      <% if(locals.error) { %>
-      <p><%= locals.error %></p>
-      <% } %>
+    <section class="auth-page">
+      <div class="auth-card" role="region" aria-labelledby="login-heading">
+        <h1 id="login-heading">Log in</h1>
+        <p class="login-help">Sign in to access your account and join games.</p>
 
-      <label for="username">Username:</label>
-      <input type="text" name="username" />
+        <form method="post" action="/auth/login" novalidate>
+          <% if (locals.error) { %>
+          <p class="form-help" style="color:var(--danger)"><%= locals.error %></p>
+          <% } %>
 
-      <label for="password">Password:</label>
-      <input type="password" name="password" />
+          <div class="form-group">
+            <label class="form-label" for="username">Username</label>
+            <input class="form-control" id="username" name="username" type="text" required>
+          </div>
 
-      <button type="submit">Login</button>
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <input class="form-control" id="password" name="password" type="password" required>
+          </div>
 
-      <a href="/auth/signup">Create an account</a>
-    </form>
+          <div class="form-group">
+            <button type="submit" class="submit-btn">Log in</button>
+          </div>
+        </form>
+
+        <div class="meta">Don't have an account? <a href="/auth/signup">Sign up</a></div>
+      </div>
+    </section>
   </body>
 </html>
