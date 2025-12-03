@@ -67,6 +67,15 @@ app.use(
   }),
 );
 
+// Also serve repo-root `public/styles` at /styles so views that link
+// to `/styles/auth.css` (the static copy) still work in dev.
+app.use(
+  "/styles",
+  express.static(path.join(__dirname, "..", "..", "public", "styles"), {
+    index: false,
+  }),
+);
+
 // Set views directory (relative to this file's location)
 // Dev: src/backend/views | Prod: dist/views
 app.set("views", path.join(__dirname, "views"));
