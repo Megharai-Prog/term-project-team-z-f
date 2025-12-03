@@ -2,7 +2,7 @@ export interface User {
   id: number;
   username: string;
   email: string;
-  created_at: Date;
+  created_at: Date;          // you can add updated_at if you want it
 }
 
 export interface SecureUser extends User {
@@ -21,17 +21,24 @@ export interface ChatMessage extends DbChatMessage {
   email: string;
 }
 
-export enum GameState {
-  LOBBY = "lobby",
-  ACTIVE = "active",
-  COMPLETED = "completed",
+export enum GameStatus {
+  OPEN = "open",
+  IN_MATCH = "inMatch",
+  CLOSED = "closed",
+}
+
+export enum GamePrivacy {
+  PUBLIC = "public",
+  PRIVATE = "private",
+  FRIENDS = "friends",
 }
 
 export type Game = {
   id: number;
+  room_id: number;
   name?: string;
-  created_by: number;
-  state: GameState;
-  max_players: number;
+  maxplayers: number;
+  status: GameStatus;
+  privacy: GamePrivacy;
   created_at: Date;
 };

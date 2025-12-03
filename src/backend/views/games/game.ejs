@@ -11,8 +11,9 @@
       <%= id %>
     </h1>
     <p>
-      <%= name %> with max players <%= max_players %>, created at <%= (new
-      Date(created_at)).toLocaleDateString() %> by <%= created_by %>
+      Game <%= id %> with max players <%= maxplayers %>, created at
+      <%= (new Date(created_at)).toLocaleDateString() %> by room owner
+      <%= room_id %>
     </p>
 
     <p><a href="/lobby">Return to lobby</a></p>

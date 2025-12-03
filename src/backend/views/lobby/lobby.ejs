@@ -10,52 +10,66 @@
     <script type="module" src="/js/lobby.js" defer></script>
   </head>
   <body>
-    <a href="/auth/logout">Logout</a>
-    <h1>
-      Hello
-      <%= user.username %>
-      (<%= user.id %>)
-    </h1>
+    <div class="top-bar">
+      <div>
+        <h1>Lobby</h1>
+        <p>
+          Hello <strong><%= user.username %></strong> (#<%= user.id %>)
+        </p>
+      </div>
+      <a href="/auth/logout">Logout</a>
+    </div>
 
-    <form method="post" action="/games">
-      <label for="name">Name</label>
-      <input type="text" name="name" placeholder="Optional game name" />
+    <form method="post" action="/games" class="create-game-form">
+      <label for="name">
+        Name
+        <input type="text" name="name" placeholder="Optional game name" />
+      </label>
 
-      <label for="max_players">Max Players</label>
-      <input type="number" name="max_players" placeholder="Optional max players (default 4)" />
+      <label for="max_players">
+        Max Players
+        <input
+          type="number"
+          name="max_players"
+          min="2"
+          max="10"
+          placeholder="Optional (default 4)"
+        />
+      </label>
 
       <button type="submit">Create Game</button>
     </form>
 
-    <div id="game-list"></div>
+    <section>
+      <h2>Open Games</h2>
+      <div id="game-list" class="game-list"></div>
 
-    <div id="chat-area">
-      <div id="message-listing"></div>
-      <div id="message-submit">
-        <input type="text" placeholder="Enter your message" />
-        <button>Send</button>
-      </div>
-    </div>
+      <template id="game-listing-template">
+        <article class="game-card">
+          <header class="game-card-header">
+            <span class="game-name"></span>
+            <span class="game-state badge"></span>
+          </header>
 
-    <template id="template-chat-message">
-      <div class="chat-message">
-        <div class="message-header">
-          <span class="message-username"></span>
-          <span class="message-time"></span>
-        </div>
-        <span class="message-text"></span>
-      </div>
-    </template>
+          <div class="game-card-meta">
+            <div><span class="label">ID:</span> <span class="game-id"></span></div>
+            <div>
+              <span class="label">Host (user id):</span>
+              <span class="game-created-by"></span>
+            </div>
+            <div>
+              <span class="label">Max players:</span>
+              <span class="max-players"></span>
+            </div>
+            <div>
+              <span class="label">Created:</span>
+              <span class="created-at"></span>
+            </div>
+          </div>
 
-    <template id="game-listing-template">
-      <div class="game-item">
-        <span class="game-id"></span>
-        <span class="game-name"></span>
-        <span class="game-created-by"></span>
-        <span class="game-state"></span>
-        <span class="max-players"></span>
-        <span class="created-at"></span>
-      </div>
-    </template>
+          <a class="game-link" href="#">View game</a>
+        </article>
+      </template>
+    </section>
   </body>
 </html>

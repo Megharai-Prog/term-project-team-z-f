@@ -1,6 +1,6 @@
 import { MigrationBuilder } from 'node-pg-migrate';
 
-const TABLE_NAME = "game";
+const TABLE_NAME = "games";
 
 export async function up(pgm: MigrationBuilder): Promise<void> {
     pgm.createType("status", ["open", "inMatch", "closed"]);
@@ -34,7 +34,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
         },
     });
 
-    pgm.createIndex("game", "status");
+    pgm.createIndex(TABLE_NAME, "status");
 }
 
 export async function down(pgm: MigrationBuilder): Promise<void> {
