@@ -71,7 +71,7 @@ app.use(
 // to `/styles/auth.css` (the static copy) still work in dev.
 app.use(
   "/styles",
-  express.static(path.join(__dirname, "..", "..", "public", "styles"), {
+  express.static(path.join(__dirname, "..", "frontend", "styles"), {
     index: false,
   }),
 );

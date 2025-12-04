@@ -1,23 +1,33 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="stylesheet" href="/js/bundle.css" />
-    <script src="/js/bundle.js" defer></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Error <%= status %></title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/styles/auth.css">
   </head>
   <body>
-    <h1>
-      Error
-      <%= status %>
-    </h1>
-    <p><%= message %></p>
+    <section class="auth-page">
+      <div class="auth-card" role="region" aria-labelledby="error-heading">
+        <h1 id="error-heading">Something went wrong</h1>
+        <p class="lead">Error <%= status %></p>
 
-    <% if (stack) { %>
-    <h2>Stack Trace</h2>
-    <pre><%= stack %></pre>
-    <% } %>
+        <p class="form-help"><%= message %></p>
 
-    <p><a href="/">Return to home</a></p>
+        <% if (stack) { %>
+          <details class="stack-trace">
+            <summary>Show technical details</summary>
+            <pre><%= stack %></pre>
+          </details>
+        <% } %>
+
+        <div class="meta">
+          <a href="/">Return to home</a>
+          &nbsp;·&nbsp;
+          <a href="/auth/login">Back to login</a>
+        </div>
+      </div>
+    </section>
   </body>
 </html>
