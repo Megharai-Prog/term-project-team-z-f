@@ -1,21 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game <%= id %></title>
-  </head>
-  <body>
-    <h1>
-      Welcome to game
-      <%= id %>
-    </h1>
-    <p>
-      Game <%= id %> with max players <%= maxplayers %>, created at
-      <%= (new Date(created_at)).toLocaleDateString() %> by room owner
-      <%= room_id %>
-    </p>
+<head>
+  <meta charset="UTF-8" />
+  <title>UNO Game – <%= game.name %></title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body class="page page--game">
 
-    <p><a href="/lobby">Return to lobby</a></p>
-  </body>
+  <!-- GLOBAL HEADER -->
+  <header class="app-header">
+    <div class="app-header__left">
+      <a href="/lobby" class="app-header__brand">UNO Online</a>
+      <span class="app-header__subtitle">Game #<%= game.id %></span>
+    </div>
+
+    <div class="app-header__right">
+      <span class="app-header__user">Logged in as <strong><%= user.username %></strong></span>
+      <form action="/auth/logout" method="POST" class="app-header__logout-form">
+        <button type="submit" class="btn btn--outline">Logout</button>
+      </form>
+    </div>
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <main class="game-layout">
+    <!-- LEFT: GAME AREA -->
+    <section class="game-main">
+      <!-- Game Info Bar -->
+      <div class="game-info-card card">
+        <div class="game-info-card__row">
+          <div>
+            <h1 class="game-title"><%= game.name %></h1>
+            <p class="game-meta">
+              State: <span class="badge badge--state"><%= game.state %></span>
+              • Max players: <%= game.max_players %>
+              • Created by: <%= game.created_by_username %>
+            </p>
+          </div>
+          <div class="game-info-card__status">
+            <p>Current Turn:</p>
+            <p class="game-turn">
+              <% if (game.current_player_username) { %>
+                <strong><%= game.current_player_username %></strong>
+              <% } else { %>
+                <span class="text-muted">Waiting to start…</span>
+              <% } %>
+            </p>
+            <p class="game-direction">
+              Direction:
+              <span class="badge badge--direction">
+                <%= game.direction || 'clockwise' %>
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Board Area (Mock-up of gameplay) -->
+      <section class="game-board card">
+        <h2 class="section-title">Game Board</h2>
+
+        <div class="game-board__row">
+          <!-- Draw pile -->
+          <div class="pile pile--draw">
+            <div class="pile__label">Draw Pile</div>
+            <div class="pile__card pile__card--back">UNO</div>
+            <p class="pile__count text-muted">
+              Cards left: <span><%= game.draw_pile_count || 0 %></span>
+            </p>
+          </div>
+
+          <!-- Discard pile -->
+          <div class="pile pile--discard">
+            <div class="pile__label">Discard Pile</div>
+            <div class="pile__card pile__card--top">
+              <!-- Placeholder for last played card -->
+              <% if (game.top_discard_card) { %>
+                <span><%= game.top_discard_card.color %> <%= game.top_discard_card.value %></span>
+              <% } else { %>
+                <span class="text-muted">No cards yet</span>
+              <% } %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Other players area -->
+        <div class="players-row">
+          <h3 class="section-subtitle">Other Players</h3>
+          <div class="players-row__list">
+            <% game.players.forEach(function (p) { %>
+              <% if (p.user_id !== user.id) { %>
+                <div class="player-chip">
+                  <div class="player-chip__avatar"><span><%= p.username[0].toUpperCase() %></span></div>
+                  <div class="player-chip__info">
+                    <div class="player-chip__name"><%= p.username %></div>
+                    <div class="player-chip__meta">
+                      Cards: <strong><%= p.hand_count || 0 %></strong>
+                      <% if (p.is_current_turn) { %>
+                        <span class="badge badge--turn">Their turn</span>
+                      <% } %>
+                    </div>
+                  </div>
+                </div>
+              <% } %>
+            <% }); %>
+          </div>
+        </div>
+      </section>
+
+      <!-- Your Hand (Private area) -->
+      <section class="game-hand card">
+        <h2 class="section-title">Your Hand</h2>
+        <p class="text-muted">
+          This area is private to you. In a real game, cards would come from the server.
+        </p>
+
+        <div class="game-hand__cards">
+          <!-- Placeholder cards – replace with real server data later -->
+          <% (hand || []).forEach(function(card) { %>
+            <div class="card-tile card-tile--<%= card.color.toLowerCase() %>">
+              <span class="card-tile__value"><%= card.value %></span>
+              <span class="card-tile__color"><%= card.color %></span>
+            </div>
+          <% }); %>
+
+          <% if (!hand || hand.length === 0) { %>
+            <div class="text-muted">You have no cards yet. Draw a card to start.</div>
+          <% } %>
+        </div>
+      </section>
+    </section>
+
+    <!-- RIGHT: SIDEBAR -->
+    <aside class="game-sidebar">
+      <!-- Game Actions -->
+      <section class="card sidebar-section">
+        <h2 class="section-title">Game Actions</h2>
+        <form action="/api/games/<%= game.id %>/draw" method="POST" class="sidebar-actions">
+          <button type="submit" class="btn btn--primary btn--full">Draw Card</button>
+        </form>
+
+        <button class="btn btn--secondary btn--full" disabled>
+          Play Selected Card (coming soon)
+        </button>
+
+        <form action="/api/games/<%= game.id %>/uno" method="POST" class="sidebar-actions">
+          <button type="submit" class="btn btn--warning btn--full">Call UNO</button>
+        </form>
+
+        <a href="/lobby" class="btn btn--outline btn--full sidebar-actions__link">
+          ← Back to Lobby
+        </a>
+      </section>
+
+      <!-- Game Info / Chat Placeholder -->
+      <section class="card sidebar-section">
+        <h2 class="section-title">Game Info</h2>
+        <ul class="info-list">
+          <li><strong>Game ID:</strong> <%= game.id %></li>
+          <li><strong>Status:</strong> <%= game.state %></li>
+          <li><strong>Created:</strong> <%= game.created_at.toISOString().slice(0,10) %></li>
+        </ul>
+        <p class="text-muted small">
+          Chat, turn log, and more real-time info can go here in later milestones.
+        </p>
+      </section>
+
+      <section class="card sidebar-section">
+        <h2 class="section-title">Connection Status</h2>
+        <p class="text-muted small">
+          This page will later connect to Socket.io to show live updates:
+          game:state:update, game:hand:update, game:turn:changed, etc.
+        </p>
+      </section>
+    </aside>
+  </main>
+
+</body>
 </html>
