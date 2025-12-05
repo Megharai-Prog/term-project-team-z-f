@@ -39,8 +39,10 @@ router.post("/", async (request, response) => {
 router.get("/:id", async (request, response) => {
   const { id } = request.params;
   const game = await Games.get(parseInt(id));
+  const players = await Games.getPlayers(parseInt(id));
+  const { user } = request.session;
 
-  response.render("games/game", { ...game });
+  response.render("games/game", { ...game, players, user });
 });
 
 router.post("/:game_id/join", async (request, response) => {
@@ -49,7 +51,7 @@ router.post("/:game_id/join", async (request, response) => {
 
   await Games.join(parseInt(game_id), id);
 
-  response.redirect(`/games/${id}`);
+  response.redirect(`/games/${game_id}`);
 });
 
 export default router;

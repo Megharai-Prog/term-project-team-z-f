@@ -11,9 +11,31 @@
 <body class="container">
 
   <header class="nav">
-    <h2>Game <%= id %></h2>
+    <div class="nav-left">
+      <h2>Game <%= id %></h2>
+
+      <% if (user) { %>
+        <span class="user-chip">
+          You are: <strong><%= user.username %></strong>
+        </span>
+      <% } %>
+    </div>
     <a href="/lobby">Back to Lobby</a>
   </header>
+
+  <section class="players">
+  <h3>Players in this game</h3>
+
+  <% if (players && players.length) { %>
+    <ul class="player-list">
+      <% players.forEach(function (p) { %>
+        <li><%= p.username %></li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No one has joined this game yet.</p>
+  <% } %>
+</section>
 
   <section class="card">
     <h3>Game Information</h3>

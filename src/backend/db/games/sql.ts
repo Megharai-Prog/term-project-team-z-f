@@ -39,3 +39,13 @@ WHERE game_players.game_id=games.id AND user_id=$1
 export const GAME_BY_ID = `
   SELECT * FROM games WHERE id=$1
 `;
+
+export const PLAYERS_FOR_GAME = `
+  SELECT
+    u.id,
+    u.username
+  FROM game_players AS gp
+  JOIN users AS u ON u.id = gp.user_id
+  WHERE gp.game_id = $1
+  ORDER BY gp.id ASC
+`;
