@@ -1,6 +1,6 @@
 import { MigrationBuilder, PgType } from "node-pg-migrate";
 
-const TABLE_NAME = "message";
+const TABLE_NAME = "chat_messages";
 
 export async function up(pgm: MigrationBuilder): Promise<void> {
     pgm.createTable(TABLE_NAME, {
@@ -14,10 +14,10 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
         game_id: {
             type: PgType.INTEGER,
             notNull: true,
-            references: "game(id)",
+            references: "games(id)",
             onDelete: "CASCADE",
         },
-        sent_at: {
+        created_at: {
             type: PgType.TIMESTAMP,
             notNull: true,
             default: pgm.func("current_timestamp"),
@@ -28,7 +28,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
         },
     });
 
-    pgm.createIndex(TABLE_NAME, ["game_id", "sent_at"]);
+    pgm.createIndex(TABLE_NAME, ["game_id", "created_at"]);
     pgm.createIndex(TABLE_NAME, "user_id");
 }
 

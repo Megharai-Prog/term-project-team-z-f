@@ -1,4 +1,4 @@
-import { Game, GameState } from "../../../types/types";
+import { Game, GameStatus } from "../../../types/types";
 import db from "../connection";
 import { CREATE_GAME, GAME_BY_ID, GAMES_BY_USER, JOIN_GAME, LIST_GAMES } from "./sql";
 
@@ -8,7 +8,7 @@ const create = async (user_id: number, name?: string, maxPlayers: number = 4) =>
 const join = async (game_id: number, user_id: number) =>
   await db.none(JOIN_GAME, [game_id, user_id]);
 
-const list = async (state: GameState = GameState.LOBBY, limit: number = 50) =>
+const list = async (state: GameStatus = GameStatus.OPEN, limit: number = 50) =>
   await db.manyOrNone<Game>(LIST_GAMES, [state, limit]);
 
 const getByUser = async (user_id: number) => await db.manyOrNone<Game>(GAMES_BY_USER, [user_id]);

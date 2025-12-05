@@ -1,0 +1,217 @@
+
+:root{
+	--bg: #f7f9fc;
+	--card: #ffffff;
+	--primary: #2563eb;
+	--accent: #f97316;
+	--muted: #6b7280;
+	--danger: #ef4444;
+	--radius: 10px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+
+.auth-page{
+	min-height:100vh;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	background:linear-gradient(180deg, #f0f4ff, var(--bg));
+	padding:24px;
+}
+
+/* Ensure signup-specific classes behave the same as auth-page/card
+	 Some templates may use `.signup-page`/.signup-card; keep them centered */
+.signup-page{
+	min-height:100vh;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	background:linear-gradient(180deg, #f0f4ff, var(--bg));
+	padding:24px;
+}
+
+.signup-card{
+	width:100%;
+	max-width:420px;
+	background:var(--card);
+	border-radius:var(--radius);
+	box-shadow:0 8px 22px rgba(2,6,23,0.06);
+	padding:28px;
+	border:1px solid rgba(2,6,23,0.04);
+}
+
+.auth-card{
+	width:100%;
+	max-width:420px;
+	background:var(--card);
+	border-radius:var(--radius);
+	box-shadow:0 8px 22px rgba(2,6,23,0.06);
+	padding:28px;
+	border:1px solid rgba(2,6,23,0.04);
+}
+
+/* Center form contents inside the card */
+.auth-card form,
+.signup-card form,
+.login-card form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-label {
+  text-align: center;
+}
+
+.form-control {
+	width: 320px;
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+.auth-card h1{margin:0 0 6px 0;font-size:20px;color:#0f172a}
+.auth-card p.lead{margin:0 0 16px 0;color:var(--muted);font-size:14px}
+
+.form-group{margin-bottom:14px}
+.form-label{display:block;margin-bottom:6px;font-weight:600;color:#0f172a;font-size:13px}
+.form-control{padding:10px 12px;border-radius:8px;border:2px solid rgba(2,6,23,0.18);font-size:15px;background:#fff;color:#0b1220}
+.form-control:focus{outline:none;border:2px solid var(--primary);box-shadow:0 8px 20px rgba(37,99,235,0.08)}
+.form-help{margin-top:6px;font-size:13px;color:var(--muted)}
+.input-error{border:2px solid var(--danger) !important;box-shadow:0 6px 18px rgba(239,68,68,0.06) !important}
+
+.submit-btn{display:block;width:320px;max-width:100%;padding:12px;border-radius:10px;border:0;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;font-size:15px;margin:0 auto}
+.submit-btn:hover{filter:brightness(.96);transform:translateY(-1px)}
+
+.meta{text-align:center;margin-top:14px;color:var(--muted);font-size:14px}
+.meta a{color:var(--primary);text-decoration:none}
+
+@media (max-width:480px){.auth-card{padding:18px;border-radius:8px} .submit-btn{width:100%;}}
+
+/* Lobby styles */
+.lobby-page{
+  min-height:100vh;
+  background: linear-gradient(180deg,#f8fafc,#f3f4f6);
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.top-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:20px;
+}
+
+.lobby-container{
+  max-width:1200px;
+  margin: 0 auto;
+  width:100%;
+  padding: 0 24px;
+}
+
+.lobby-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.lobby-title{
+  font-size:1.25rem;
+  font-weight:700;
+  color:#0f172a;
+}
+
+.lobby-actions{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.btn {
+  padding:10px 14px;
+  border-radius:10px;
+  border:0;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.btn-primary{ background: var(--primary); color: #fff }
+.btn-ghost{ background: transparent; border:1px solid rgba(15,23,42,0.06); color:var(--muted) }
+
+.top-bar a {
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.top-bar a:hover {
+  filter: brightness(.96);
+}
+
+.create-game-card{
+  background: var(--card);
+  padding:16px;
+  border-radius: var(--radius);
+  box-shadow:0 8px 24px rgba(15,23,42,0.06);
+  border:1px solid rgba(15,23,42,0.04);
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.game-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:16px;
+  margin-top:20px;
+}
+
+.games-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, max-content));
+  gap:16px;
+  margin-top:20px;
+}
+
+.game-card{
+  background: var(--card);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+  border: 1px solid rgba(2,6,23,0.03);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  width: fit-content;
+}
+
+.game-meta{
+  color:var(--muted);
+  font-size:0.9rem;
+}
+
+.game-actions{
+  margin-top:12px;
+  display:flex;
+  gap:8px;
+}
+
+@media (max-width:900px){
+  .games-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width:560px){
+  .games-grid{ grid-template-columns: 1fr; }
+  .lobby-header{ flex-direction:column; align-items:stretch }
+  .lobby-actions{ justify-content:space-between }
+}

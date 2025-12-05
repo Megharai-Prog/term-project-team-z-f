@@ -1,10 +1,25 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UNO Lobby</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="stylesheet" href="/js/bundle.css" />
+    <link rel="stylesheet" href="/styles/title.css" />
   </head>
   <body>
-    <a href="/auth/login">Login</a>
-    <a href="/auth/signup">Signup</a>
+    <main class="title-page">
+      <section class="title-card" aria-label="UNO title screen">
+        <h1 class="game-title">UNO</h1>
+        <p class="game-subtitle">Created by Team Z-F.</p>
+
+        <div class="actions">
+          <a href="/auth/login" class="login-btn">Log In</a>
+          <a href="/auth/signup" class="signup-btn">Sign Up</a>
+        </div>
+
+        <p class="title-footnote">Log in or sign up to join a game.</p>
+      </section>
+    </main>
   </body>
 </html>

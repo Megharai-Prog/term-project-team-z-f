@@ -1,6 +1,6 @@
 export const CREATE_GAME = `
-INSERT INTO games (created_by, name, max_players)
-VALUES ($1, $2, $3)
+INSERT INTO games (room_id, maxplayers)
+VALUES ($1, $3)
 RETURNING *
 `;
 
@@ -17,8 +17,7 @@ SELECT
     json_agg(
       json_build_object(
         'user_id', gp.user_id,
-        'username', u.username,
-        'email', u.email
+        'username', u.username
       )
     ) FILTER (WHERE gp.id IS NOT NULL),
     '[]'
@@ -26,7 +25,7 @@ SELECT
 FROM games g
 LEFT JOIN game_players gp ON g.id=gp.game_id
 LEFT JOIN users u ON u.id=gp.user_id
-WHERE g.state=$1
+WHERE g.status=$1
 GROUP BY g.id
 ORDER BY g.created_at DESC
 LIMIT $2

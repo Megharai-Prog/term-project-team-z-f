@@ -22,7 +22,11 @@ if (isDevelopment) {
   const liveReloadServer = livereload.createServer({
     exts: ["ejs", "css", "js"],
   });
-  liveReloadServer.watch([path.join(__dirname, "views"), path.join(__dirname, "public")]);
+  liveReloadServer.watch([
+    path.join(__dirname, "views"),
+    path.join(__dirname, "public"),
+    path.join(__dirname, "..", "frontend"),
+  ]);
 }
 
 const app = express();
@@ -52,6 +56,25 @@ app.use(bodyParser.json());
 // Serve static files from public directory (relative to this file's location)
 // Dev: src/backend/public | Prod: dist/public
 app.use(express.static(path.join(__dirname, "public")));
+
+// Serve frontend source static assets (CSS/JS) under /styles so dev CSS
+// in `src/frontend` can be loaded directly without copying to `public`.
+// Requesting `/styles/styles.css` will serve `src/frontend/styles.css`.
+app.use(
+  "/styles",
+  express.static(path.join(__dirname, "..", "frontend"), {
+    index: false,
+  }),
+);
+
+// Also serve repo-root `public/styles` at /styles so views that link
+// to `/styles/auth.css` (the static copy) still work in dev.
+app.use(
+  "/styles",
+  express.static(path.join(__dirname, "..", "frontend", "styles"), {
+    index: false,
+  }),
+);
 
 // Set views directory (relative to this file's location)
 // Dev: src/backend/views | Prod: dist/views

@@ -1,6 +1,6 @@
 import { MigrationBuilder } from 'node-pg-migrate';
 
-const TABLE_NAME = "game_user";
+const TABLE_NAME = "game_players";
 
 export async function up(pgm: MigrationBuilder): Promise<void> {
     pgm.createTable(TABLE_NAME, {
@@ -8,7 +8,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
         game_id: {
             type: "integer",
             notNull: true,
-            references: 'game(id)',
+            references: 'games(id)',
             onDelete: "CASCADE",
         },
         user_id: {
@@ -25,7 +25,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
         },
     });
 
-    pgm.addConstraint(TABLE_NAME, "unique_game_user", {
+    pgm.addConstraint(TABLE_NAME, "unique_game_players", {
         unique: ["game_id", "user_id"],
     });
 

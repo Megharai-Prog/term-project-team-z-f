@@ -1,4 +1,4 @@
-import "./styles.css";
+import "./styles/styles.css";
 
 const button: Element | null = document.querySelector("#test-button");
 

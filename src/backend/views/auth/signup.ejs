@@ -5,25 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/styles/auth.css">
   </head>
   <body>
-  <body>
-    <form method="post" action="/auth/signup">
-      <% if(locals.error !== undefined) { %>
-      <p><%= locals.error %></p>
-      <% } %>
+    <section class="auth-page">
+      <div class="auth-card" role="region" aria-labelledby="signup-heading">
+        <h1 id="signup-heading">Create an account</h1>
+        <p class="lead">Sign up to join the game lobby.</p>
 
-      <label for="username">Username:</label>
-      <input type="text" name="username" />
+        <form method="post" action="/auth/signup" novalidate>
+          <% if (locals.error) { %>
+          <p class="form-help" style="color:var(--danger)"><%= locals.error %></p>
+          <% } %>
 
-      <label for="email">Email:</label>
-      <input type="email" name="email" />
+          <div class="form-group">
+            <label class="form-label" for="username">Username</label>
+            <input class="form-control" id="username" name="username" type="text" required>
+          </div>
 
-      <label for="password">Password:</label>
-      <input type="password" name="password" />
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input class="form-control" id="email" name="email" type="email" required>
+          </div>
 
-      <button type="submit">Create Account</button>
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <input class="form-control" id="password" name="password" type="password" required>
+          </div>
 
-      <a href="/auth/login">Login</a>
-    </form></body>
+          <div class="form-group">
+            <label class="form-label" for="passwordConfirm">Confirm password</label>
+            <input class="form-control" id="passwordConfirm" name="passwordConfirm" type="password" required>
+            <div id="pwHelp" class="form-help" aria-live="polite" style="display:none;color:var(--danger)">Passwords do not match.</div>
+          </div>
+
+          <button type="submit" class="submit-btn">Create Account</button>
+        </form>
+
+        <div class="meta">Already have an account? <a href="/auth/login">Log in</a></div>
+      </div>
+    </section>
+
+    <script>
+      (function () {
+        const form = document.querySelector('form');
+        const pw = document.getElementById('password');
+        const pwc = document.getElementById('passwordConfirm');
+        const help = document.getElementById('pwHelp');
+
+        form.addEventListener('submit', function (e) {
+          if (pw.value !== pwc.value) {
+            e.preventDefault();
+            pw.classList.add('input-error');
+            pwc.classList.add('input-error');
+            help.style.display = 'block';
+          }
+        });
+      })();
+    </script>
+  </body>
 </html>
