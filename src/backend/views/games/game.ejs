@@ -1,20 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game <%= id %></title>
-  </head>
-  <body>
-    <h1>
-      Welcome to game
-      <%= id %>
-    </h1>
-    <p>
-      <%= name %> with max players <%= max_players %>, created at <%= (new
-      Date(created_at)).toLocaleDateString() %> by <%= created_by %>
-    </p>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game <%= id %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
 
-    <p><a href="/lobby">Return to lobby</a></p>
-  </body>
+<body class="container">
+
+  <header class="nav">
+    <h2>Game <%= id %></h2>
+    <a href="/lobby">Back to Lobby</a>
+  </header>
+
+  <section class="card">
+    <h3>Game Information</h3>
+    <p><strong>Name:</strong> <%= name %></p>
+    <p><strong>Max Players:</strong> <%= max_players %></p>
+    <p><strong>Created By:</strong> <%= created_by %></p>
+    <p><strong>Created At:</strong> <%= new Date(created_at).toLocaleString() %></p>
+  </section>
+
+  <!-- REQUIRED MOCK-UP FOR MILESTONE 4 -->
+  <section class="card">
+    <h3>Game Board (Mock-Up)</h3>
+
+    <div class="board-row">
+      <div class="card-slot">🂠 Draw Pile</div>
+      <div class="card-slot">Top Card: [placeholder]</div>
+    </div>
+
+    <h4>Your Hand</h4>
+    <div class="hand">
+      <div class="card-slot">Card 1</div>
+      <div class="card-slot">Card 2</div>
+      <div class="card-slot">Card 3</div>
+    </div>
+
+    <p class="note">
+      (Mock-up only — required for Milestone 4. Real gameplay added later.)
+    </p>
+  </section>
+
+</body>
 </html>
