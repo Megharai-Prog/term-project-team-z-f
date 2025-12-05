@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Game <%= id %></title>
-  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/styles/game.css">
 </head>
 
 <body class="container">
@@ -16,9 +17,9 @@
 
   <section class="card">
     <h3>Game Information</h3>
-    <p><strong>Name:</strong> <%= name %></p>
-    <p><strong>Max Players:</strong> <%= max_players %></p>
-    <p><strong>Created By:</strong> <%= created_by %></p>
+    <p><strong>Room:</strong> <%= room_id %></p>
+    <p><strong>Status:</strong> <%= status %></p>
+    <p><strong>Privacy:</strong> <%= privacy %></p>
     <p><strong>Created At:</strong> <%= new Date(created_at).toLocaleString() %></p>
   </section>
 
