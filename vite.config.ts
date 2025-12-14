@@ -9,6 +9,13 @@ export default defineConfig(({ command, mode }) => {
     // Enable public directory for static assets like favicon
     publicDir: "public",
 
+    server: {
+    hmr: {
+      port: 35730, // <-- FIX: change HMR port
+    },
+  },
+
+
     build: {
       // Dev outputs to src/backend/public, production to dist/public
       outDir,
