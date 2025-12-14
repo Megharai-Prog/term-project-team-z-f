@@ -72,6 +72,24 @@
             </article>
           </template>
         </section>
+          <section class="chat-card">
+          <h2>Global Chat</h2>
+
+          <div id="message-listing" class="chat-messages"></div>
+
+          <form id="message-submit" class="chat-compose">
+            <input type="text" placeholder="Type a message…" autocomplete="off" />
+            <button type="submit">Send</button>
+          </form>
+
+          <template id="template-chat-message">
+            <div class="chat-message">
+              <span class="message-time"></span>
+              <span class="message-username"></span>
+              <span class="message-text"></span>
+            </div>
+          </template>
+      </section>
       </div>
     </div>
   </body>

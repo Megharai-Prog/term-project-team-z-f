@@ -13,7 +13,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
         },
         game_id: {
             type: PgType.INTEGER,
-            notNull: true,
+            notNull: false,
             references: "games(id)",
             onDelete: "CASCADE",
         },

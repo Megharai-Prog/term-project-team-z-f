@@ -74,7 +74,9 @@ input.addEventListener("keydown", (event) => {
 });
 
 // Load message history when page loads
-fetch("/chat/", {
-  method: "get",
-  credentials: "include",
+socket.on("connect", () => {
+  fetch("/chat/", {
+    method: "get",
+    credentials: "include",
+  });
 });
