@@ -12,8 +12,10 @@
     "dev": "concurrently --names \"backend,frontend\" --prefix-colors \"green,blue\" \"npm run dev:backend\" \"npm run dev:frontend\"",
     "start:dev": "npm run dev",
     "migrate:create": "node-pg-migrate create -j ts -- ",
-    "migrate:up": "node-pg-migrate up",
-    "migrate:down": "node-pg-migrate down"
+    "migrate:up": "cross-env NODE_OPTIONS=--import=tsx node-pg-migrate up",
+    "migrate:down": "cross-env NODE_OPTIONS=--import=tsx node-pg-migrate down",
+    "migrate:drop": "cross-env NODE_OPTIONS=--import=tsx node-pg-migrate down -- 999",
+    "migrate:reset": "npm run migrate:drop && npm run migrate:up"
   },
   "keywords": [],
   "author": "",
@@ -53,6 +55,7 @@
   "devDependencies": {
     "concurrently": "^9.2.1",
     "connect-livereload": "^0.6.1",
+    "cross-env": "^10.1.0",
     "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
