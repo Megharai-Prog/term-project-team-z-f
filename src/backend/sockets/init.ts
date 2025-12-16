@@ -4,6 +4,7 @@ import { GLOBAL_ROOM } from "../../shared/keys";
 import { User } from "../../types/types";
 import { sessionMiddleware } from "../config/session";
 import logger from "../lib/logger";
+import { GAME_JOIN, gameRoom } from "../../shared/keys";
 
 export const initSockets = (httpServer: HTTPServer) => {
   const io = new Server(httpServer);
@@ -19,6 +20,12 @@ export const initSockets = (httpServer: HTTPServer) => {
     socket.join(session.id);
     socket.join(GLOBAL_ROOM);
 
+    socket.on(GAME_JOIN, ({ game_id }: { game_id: number }) => {
+      if (Number.isInteger(game_id)) {
+        socket.join(gameRoom(game_id));
+      }
+    });
+
     socket.on("close", () => {
       logger.info(`socket for user ${session.user.username} closed`);
     });
@@ -26,3 +33,4 @@ export const initSockets = (httpServer: HTTPServer) => {
 
   return io;
 };
+

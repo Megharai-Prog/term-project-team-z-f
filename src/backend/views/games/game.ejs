@@ -5,10 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Game <%= id %></title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/styles/styles.css">
   <link rel="stylesheet" href="/styles/game.css">
+  <link rel="stylesheet" href="/styles/chat.css">
+  <script type="module" src="/js/chat.js" defer></script>
 </head>
 
-<body class="container">
+<body class="container" data-game-id="<%= id %>">
 
   <header class="nav">
     <div class="nav-left">
@@ -65,6 +68,25 @@
       (Mock-up only — required for Milestone 4. Real gameplay added later.)
     </p>
   </section>
+
+  <section class="chat-card">
+  <h3>Game Chat</h3>
+
+  <div id="message-listing" class="chat-messages"></div>
+
+  <form id="message-submit" class="chat-compose">
+    <input type="text" placeholder="Type a message…" autocomplete="off" />
+    <button type="submit">Send</button>
+  </form>
+
+  <template id="template-chat-message">
+    <div class="chat-message">
+      <span class="message-time"></span>
+      <span class="message-username"></span>
+      <span class="message-text"></span>
+    </div>
+  </template>
+</section>
 
 </body>
 </html>
