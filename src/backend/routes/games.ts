@@ -5,6 +5,7 @@ import { Games } from "../db";
 import logger from "../lib/logger";
 
 const router = express.Router();
+const gameNameCache = new Map<number, string>();
 
 router.get("/", async (request, response) => {
   const sessionId = request.session.id;
@@ -12,9 +13,13 @@ router.get("/", async (request, response) => {
   response.status(202).send();
 
   const games = await Games.list();
-  const io = request.app.get("io") as Server;
+  const gamesWithNames = games.map((g: any) => ({
+    ...g,
+    name: gameNameCache.get(g.id) ?? null,
+  }));
 
-  io.to(sessionId).emit(GAME_LISTING, games);
+  const io = request.app.get("io") as Server;
+  io.to(sessionId).emit(GAME_LISTING, gamesWithNames);
 });
 
 router.post("/", async (request, response) => {
@@ -22,16 +27,20 @@ router.post("/", async (request, response) => {
     const { id } = request.session.user!;
     const { name, max_players } = request.body;
 
-    logger.info(`Create game request ${name}, ${max_players} by ${id}`);
     const game = await Games.create(id, name, max_players);
-    logger.info(`Game created: ${game.id}`);
+
+    try { 
+      await Games.join(game.id, id);
+    } catch {}
+
+    const trimmedName = typeof name === "string" ? name.trim() : "";
+    if (trimmedName) gameNameCache.set(game.id, trimmedName);
 
     const io = request.app.get("io") as Server;
-    io.emit(GAME_CREATE, { ...game });
+    io.emit(GAME_CREATE, { ...game, name: gameNameCache.get(game.id) ?? null });
 
     response.redirect(`/games/${game.id}`);
   } catch (error: any) {
-    logger.error("Error creating game:", error);
     response.redirect("/lobby");
   }
 });

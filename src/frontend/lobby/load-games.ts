@@ -9,11 +9,15 @@ export const loadGames = () => {
 
 const createGameElement = (game: Game) => {
   const gameItem = gameItemTemplate.content.cloneNode(true) as HTMLDivElement;
+  const host = game.host_username ?? `User #${game.room_id}`;
+  const displayName = game.name && game.name.trim().length ? game.name.trim() : `${host}'s game`;
 
   gameItem.querySelector(".game-id")!.textContent = `${game.id}`;
-  gameItem.querySelector(".game-name")!.textContent = `Game ${game.id}`;
-  gameItem.querySelector(".game-created-by")!.textContent = `${game.room_id}`;
+  gameItem.querySelector(".game-name")!.textContent = displayName;
+  gameItem.querySelector(".game-created-by")!.textContent = host;
   gameItem.querySelector(".game-state")!.textContent = game.status.toString();
+  const playerCountEl = gameItem.querySelector(".player-count");
+  if (playerCountEl) playerCountEl.textContent = `${Number(game.player_count ?? 0)}`;
   gameItem.querySelector(".max-players")!.textContent = `${game.maxplayers}`;
   gameItem.querySelector(".created-at")!.textContent = new Date(
     game.created_at,

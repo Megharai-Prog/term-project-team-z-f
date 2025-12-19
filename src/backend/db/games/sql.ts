@@ -12,6 +12,7 @@ VALUES ($1, $2)
 export const LIST_GAMES = `
 SELECT 
   g.*,
+  host.username AS host_username,
   COUNT(gp.id) AS player_count,
   COALESCE(
     json_agg(
@@ -23,10 +24,11 @@ SELECT
     '[]'
   ) AS players
 FROM games g
+JOIN users host ON host.id = g.room_id
 LEFT JOIN game_players gp ON g.id=gp.game_id
 LEFT JOIN users u ON u.id=gp.user_id
 WHERE g.status=$1
-GROUP BY g.id
+GROUP BY g.id, host.username
 ORDER BY g.created_at DESC
 LIMIT $2
 `;
@@ -49,3 +51,4 @@ export const PLAYERS_FOR_GAME = `
   WHERE gp.game_id = $1
   ORDER BY gp.id ASC
 `;
+

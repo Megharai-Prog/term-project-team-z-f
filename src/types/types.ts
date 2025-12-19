@@ -42,4 +42,8 @@ export type Game = {
   status: GameStatus;
   privacy: GamePrivacy;
   created_at: Date;
+
+  host_username?: string;
+  player_count?: number;
+  players?: { user_id: number; username: string }[];
 };
