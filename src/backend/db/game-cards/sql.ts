@@ -101,3 +101,27 @@ WHERE game_id = $1 AND card_pile = 'Discard'
 ORDER BY "order" ASC
 LIMIT 1
 `;
+
+// Move exactly one card from Draw to Discard, used for starting the game
+export const START_DRAW_TO_DISCARD = `
+WITH top_draw AS (
+  SELECT id
+  FROM game_cards
+  WHERE game_id = $1
+    AND card_pile = 'Draw'
+  ORDER BY "order" ASC
+  LIMIT 1
+),
+new_discard_order AS (
+  SELECT COALESCE(MIN("order"), 0) - 1 AS ord
+  FROM game_cards
+  WHERE game_id = $1
+    AND card_pile = 'Discard'
+)
+UPDATE game_cards
+SET card_pile = 'Discard',
+    owned_by = NULL,
+    "order"  = (SELECT ord FROM new_discard_order)
+WHERE id = (SELECT id FROM top_draw)
+RETURNING id, card_id
+`;
