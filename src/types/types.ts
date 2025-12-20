@@ -2,7 +2,15 @@ export interface User {
   id: number;
   username: string;
   email: string;
-  created_at: Date;          // you can add updated_at if you want it
+  created_at: Date;          
+}
+
+export type CardColor = "red" | "blue" | "green" | "yellow";
+
+export interface Card {
+  id: string;        // unique per card instance (not DB id)
+  color: CardColor;
+  value: number;     
 }
 
 export interface SecureUser extends User {
@@ -37,13 +45,21 @@ export enum GamePrivacy {
 export type Game = {
   id: number;
   room_id: number;
+  owner_id: number;
   name?: string;
   maxplayers: number;
   status: GameStatus;
   privacy: GamePrivacy;
   created_at: Date;
-
-  host_username?: string;
-  player_count?: number;
-  players?: { user_id: number; username: string }[];
 };
+
+export interface GameState {
+  gameId: number;
+  status: GameStatus;
+  players: number[];
+  currentTurnIndex: number;
+
+  hands: Record<number, Card[]>;
+  drawPile: Card[];
+  discardPile: Card[];
+}
