@@ -1,0 +1,158 @@
+<!-- backend/views/quick-play.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Play UNO</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/styles/styles.css">
+  <link rel="stylesheet" href="/styles/quick-play.css">
+  <script type="module" src="/js/quick-play.js" defer></script>
+</head>
+<body class="container" data-user-id="<%= user.id %>" data-username="<%= user.username %>">
+  
+  <header class="nav">
+    <div class="nav-left">
+      <h2>Quick Play UNO</h2>
+      <span class="user-chip">
+        Playing as: <strong><%= user.username %></strong>
+      </span>
+    </div>
+    <div class="nav-right">
+      <a href="/lobby" class="btn-secondary">Back to Lobby</a>
+      <button id="create-quick-game" class="btn-primary">🎮 Create Quick Game</button>
+    </div>
+  </header>
+
+  <div class="quick-play-container">
+    
+    <!-- Left: Game Lobby/Info -->
+    <div class="quick-play-sidebar">
+      <section class="card">
+        <h3>Quick Game Lobby</h3>
+        
+        <div id="quick-game-info" class="hidden">
+          <p><strong>Game ID:</strong> <span id="quick-game-id">-</span></p>
+          <p><strong>Share Code:</strong> <span id="share-code">-</span></p>
+          <button id="copy-invite" class="btn-small">📋 Copy Invite Link</button>
+        </div>
+        
+        <div id="join-quick-game" class="hidden">
+          <h4>Join Quick Game</h4>
+          <input type="text" id="game-code-input" placeholder="Enter game code" />
+          <button id="join-with-code" class="btn-small">Join</button>
+        </div>
+        
+        <div id="waiting-room">
+          <h4>Players (<span id="player-count">0</span>/4)</h4>
+          <ul id="player-list" class="player-list"></ul>
+          
+          <div id="host-controls" class="hidden">
+            <button id="start-quick-game" class="btn-primary">Start Game</button>
+            <button id="close-quick-game" class="btn-danger">Close Room</button>
+          </div>
+          
+          <div id="player-waiting" class="hidden">
+            <p>Waiting for host to start the game...</p>
+          </div>
+        </div>
+      </section>
+    </div>
+    
+    <!-- Right: Game Board -->
+    <div class="quick-play-main">
+      <section class="card">
+        <h3>Quick UNO</h3>
+        
+        <div class="board-row">
+          <button id="quick-draw-btn" class="card-slot" disabled>🂠 Draw</button>
+          <div id="quick-top-card" class="card-slot">Top Card: (waiting)</div>
+          <div id="quick-turn-indicator" class="turn-indicator">Turn: —</div>
+        </div>
+        
+        <div id="quick-game-controls" class="hidden">
+          <div class="game-info-row">
+            <span>Direction: <span id="game-direction">↻</span></span>
+            <span>Cards in deck: <span id="deck-count">108</span></span>
+            <button id="call-uno" class="btn-small">📣 Call UNO!</button>
+          </div>
+        </div>
+        
+        <h4>Your Hand (<span id="hand-count">0</span>)</h4>
+        <div id="quick-hand" class="hand"></div>
+        
+        <div id="quick-chat" class="chat-mini">
+          <div id="quick-messages" class="chat-messages"></div>
+          <input type="text" id="quick-chat-input" placeholder="Quick chat..." />
+        </div>
+        
+        <p id="quick-status" class="note"></p>
+      </section>
+    </div>
+    
+  </div>
+
+  <!-- Templates -->
+  <template id="player-item-template">
+    <li class="player-item">
+      <span class="player-avatar">👤</span>
+      <span class="player-name"></span>
+      <span class="player-status"></span>
+    </li>
+  </template>
+  
+  <template id="card-template">
+    <button class="card-slot">
+      <div class="card-value"></div>
+      <div class="card-color"></div>
+    </button>
+  </template>
+
+  <!-- In quick-play.ejs body -->
+<div class="quick-play-container">
+  <section class="card">
+    <h3>Quick Play UNO</h3>
+    <p>Test the quick play system</p>
+    
+    <div class="test-buttons">
+      <button id="create-quick-game" class="btn-primary">
+        🎮 Create Quick Game
+      </button>
+      
+      <div class="test-input" style="margin-top: 20px;">
+        <input type="text" id="game-code" placeholder="Or enter game code">
+        <button id="join-quick-game" class="btn-secondary">Join</button>
+      </div>
+    </div>
+    
+    <div id="game-info" style="margin-top: 20px; display: none;">
+      <h4>Game Info</h4>
+      <p>Code: <span id="game-code-display"></span></p>
+      <p>Players: <span id="player-count">1</span></p>
+      <button id="start-game-btn" class="btn-success" style="display: none;">
+        Start Game
+      </button>
+    </div>
+    
+    <div id="debug-log" style="margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 5px;">
+      <h5>Debug Log</h5>
+      <div id="log-content"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+// Simple debug logging
+function log(message) {
+  const logEl = document.getElementById('log-content');
+  if (logEl) {
+    logEl.innerHTML += `<div>${new Date().toLocaleTimeString()}: ${message}</div>`;
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+  console.log(message);
+}
+</script>
+
+</body>
+</html>

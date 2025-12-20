@@ -1,5 +1,5 @@
 import db from "../connection";
-import { CREATE_DECK, GET_CARDS_FROM_DECK, DEAL_CARDS, GET_CARDS_BY_OWNER, COUNT_BY_OWNER, TRANSFER_CARDS, DRAW_CARD, START_DRAW_TO_DISCARD} from "./sql";
+import { CREATE_DECK, GET_CARDS_FROM_DECK, DEAL_CARDS, GET_CARDS_BY_OWNER, COUNT_BY_OWNER, TRANSFER_CARDS, DRAW_CARD, GET_TOP_DISCARD, PLAY_CARD} from "./sql";
 
 const createDeck = async (game_id: number) => db.none(CREATE_DECK, [game_id]);
 
@@ -21,7 +21,10 @@ const transferCards = async (gameCardIds: number[], newOwnerId: number) =>
 const drawCard = async (game_id: number, user_id: number) =>
   db.oneOrNone<{ id: number }>(DRAW_CARD, [game_id, user_id]);
 
-const playStartCard = async (game_id: number) =>
-  db.oneOrNone<{ id: number; card_id: number }>(START_DRAW_TO_DISCARD, [game_id]);
+const playCard = async (gameCardId: number) =>
+  db.one(PLAY_CARD, [gameCardId]);
 
-export {createDeck, getCardsFromDeck, dealCards, getCardsByOwner, countByOwner, transferCards, drawCard, playStartCard};
+const getTopDiscard = async (game_id: number) =>
+  db.oneOrNone(GET_TOP_DISCARD, [game_id]);
+
+export {createDeck, getCardsFromDeck, dealCards, getCardsByOwner, countByOwner, transferCards, drawCard, playCard, getTopDiscard};

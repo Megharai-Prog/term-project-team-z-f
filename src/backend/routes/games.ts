@@ -5,7 +5,6 @@ import { Games } from "../db";
 import logger from "../lib/logger";
 
 const router = express.Router();
-const gameNameCache = new Map<number, string>();
 
 router.get("/", async (request, response) => {
   const sessionId = request.session.id;
@@ -13,13 +12,9 @@ router.get("/", async (request, response) => {
   response.status(202).send();
 
   const games = await Games.list();
-  const gamesWithNames = games.map((g: any) => ({
-    ...g,
-    name: gameNameCache.get(g.id) ?? null,
-  }));
-
   const io = request.app.get("io") as Server;
-  io.to(sessionId).emit(GAME_LISTING, gamesWithNames);
+
+  io.to(sessionId).emit(GAME_LISTING, games);
 });
 
 router.post("/", async (request, response) => {
@@ -27,20 +22,16 @@ router.post("/", async (request, response) => {
     const { id } = request.session.user!;
     const { name, max_players } = request.body;
 
+    logger.info(`Create game request ${name}, ${max_players} by ${id}`);
     const game = await Games.create(id, name, max_players);
-
-    try { 
-      await Games.join(game.id, id);
-    } catch {}
-
-    const trimmedName = typeof name === "string" ? name.trim() : "";
-    if (trimmedName) gameNameCache.set(game.id, trimmedName);
+    logger.info(`Game created: ${game.id}`);
 
     const io = request.app.get("io") as Server;
-    io.emit(GAME_CREATE, { ...game, name: gameNameCache.get(game.id) ?? null });
+    io.emit(GAME_CREATE, { ...game });
 
     response.redirect(`/games/${game.id}`);
   } catch (error: any) {
+    logger.error("Error creating game:", error);
     response.redirect("/lobby");
   }
 });
@@ -56,11 +47,15 @@ router.get("/:id", async (request, response) => {
 
 router.post("/:game_id/join", async (request, response) => {
   const { id } = request.session.user!;
-  const { game_id } = request.params;
+  const gameId = Number(request.params.game_id);
 
-  await Games.join(parseInt(game_id), id);
+  await Games.join(gameId, id);
 
-  response.redirect(`/games/${game_id}`);
+  const io = request.app.get("io");
+  io.to(`game:${gameId}`).emit("uno:sync", { gameId });
+
+  response.redirect(`/games/${gameId}`);
 });
+
 
 export default router;

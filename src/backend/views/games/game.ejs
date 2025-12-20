@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="/styles/game.css">
   <link rel="stylesheet" href="/styles/chat.css">
   <script type="module" src="/js/chat.js" defer></script>
+  <script type="module" src="/js/game.js" defer></script>
+
 </head>
 
 <body class="container" data-game-id="<%= id %>">
@@ -26,7 +28,7 @@
     <a href="/lobby">Back to Lobby</a>
   </header>
 
-  <section class="players">
+<section class="players" style="display: none;">
   <h3>Players in this game</h3>
 
   <% if (players && players.length) { %>
@@ -40,6 +42,20 @@
   <% } %>
 </section>
 
+<section class="players">
+  <h3>Players in this game</h3>
+  <ul id="dynamic-player-list" class="player-list">
+    <!-- Initial players from server-side render -->
+    <% if (players && players.length) { %>
+      <% players.forEach(function (p) { %>
+        <li data-user-id="<%= p.id %>"><%= p.username %></li>
+      <% }) %>
+    <% } else { %>
+      <li>No one has joined this game yet.</li>
+    <% } %>
+  </ul>
+</section>
+
   <section class="card">
     <h3>Game Information</h3>
     <p><strong>Room:</strong> <%= room_id %></p>
@@ -49,7 +65,7 @@
   </section>
 
   <!-- REQUIRED MOCK-UP FOR MILESTONE 4 -->
-  <section class="card">
+  <!-- <section class="card">
     <h3>Game Board (Mock-Up)</h3>
 
     <div class="board-row">
@@ -67,7 +83,28 @@
     <p class="note">
       (Mock-up only — required for Milestone 4. Real gameplay added later.)
     </p>
-  </section>
+  </section> -->
+
+ <!-- In game.ejs, make sure the hand container is a flex row -->
+<section class="card">
+  <h3>Mini-UNO</h3>
+
+  <div class="board-row">
+    <button id="draw-btn" class="card-slot1">🂠 Draw</button>
+    <div id="top-card" class="card-slot">Top Card: (not started)</div>
+  </div>
+
+  <div class="board-row">
+    <button id="start-btn" class="card-slot1">Start Game</button>
+    <div id="turn-indicator" class="card-slot">Turn: —</div>
+  </div>
+
+  <h4>Your Hand</h4>
+  <div id="hand" class="hand"></div>
+
+  <p id="status-line" class="note"></p>
+</section>
+
 
   <section class="chat-card">
   <h3>Game Chat</h3>

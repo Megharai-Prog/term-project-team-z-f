@@ -45,37 +45,31 @@
         <section>
           <h2>Open Games</h2>
           <div id="game-list" class="game-list"></div>
+
           <template id="game-listing-template">
             <article class="game-card">
               <header class="game-card-header">
-                <div class="game-title">
-                  <div class="game-name"></div>
-                  <div class="game-sub">
-                    Host: <span class="game-created-by"></span>
-                  </div>
-                </div>
+                <span class="game-name"></span>
                 <span class="game-state badge"></span>
               </header>
-              <div class="game-card-meta">
-                <div>
-                  <span class="label">Players</span>
-                  <span class="player-count"></span>/<span class="max-players"></span>
-                </div>
 
+              <div class="game-card-meta">
+                <div><span class="label">ID:</span> <span class="game-id"></span></div>
                 <div>
-                  <span class="label">Created</span>
+                  <span class="label">Host (user id):</span>
+                  <span class="game-created-by"></span>
+                </div>
+                <div>
+                  <span class="label">Max players:</span>
+                  <span class="max-players"></span>
+                </div>
+                <div>
+                  <span class="label">Created:</span>
                   <span class="created-at"></span>
                 </div>
-                <div>
-                  <span class="label">ID</span>
-                  <span class="game-id"></span>
-                </div>
-                <div>
-                  <span class="label">Privacy</span>
-                  <span class="privacy"></span>
-                </div>
               </div>
-              <a class="game-link btn btn-primary" href="#">View game</a>
+
+              <a class="game-link" href="#">View game</a>
             </article>
           </template>
         </section>

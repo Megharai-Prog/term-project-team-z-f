@@ -87,6 +87,7 @@ app.use("/", routes.root);
 app.use("/auth", routes.auth);
 app.use("/lobby", requireUser, routes.lobby);
 app.use("/chat", requireUser, routes.chat);
+app.use("/quick-play", requireUser, routes.quickPlay);
 app.use("/games", requireUser, routes.games);
 
 app.use((_request, _response, next) => {

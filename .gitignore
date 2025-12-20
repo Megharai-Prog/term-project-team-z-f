@@ -3,3 +3,6 @@ dist/
 logs/
 .env
 src/backend/public/js/
+# Local secrets
+src/backend/config/cookies.txt
+
